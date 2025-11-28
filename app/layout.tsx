@@ -1,12 +1,25 @@
 import './global.css'
 import type { Metadata } from 'next'
-import { GeistSans } from 'geist/font/sans'
-import { GeistMono } from 'geist/font/mono'
+import { Space_Grotesk } from 'next/font/google'
+import { JetBrains_Mono } from 'next/font/google'
 import { Navbar } from './components/nav'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import Footer from './components/footer'
 import { baseUrl } from './sitemap'
+import { AmbientNoise } from './components/ambient-noise'
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-display',
+  display: 'swap',
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
@@ -48,11 +61,12 @@ export default function RootLayout({
       lang="en"
       className={cx(
         'text-black bg-white dark:text-white dark:bg-black',
-        GeistSans.variable,
-        GeistMono.variable
+        spaceGrotesk.variable,
+        jetbrainsMono.variable
       )}
     >
       <body className="antialiased max-w-xl mx-4 mt-8 lg:mx-auto">
+        <AmbientNoise />
         <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
           <Navbar />
           {children}
