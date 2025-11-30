@@ -17,7 +17,7 @@
     "@vercel/kv": "^3.0.0",
     "@vercel/speed-insights": "^1.0.9",
     "geist": "1.5.1",
-    "next": "canary",
+    "next": "^16.0.5",
     "next-mdx-remote": "^5.0.0",
     "postcss": "^8.4.35",
     "react": "19.1.1",

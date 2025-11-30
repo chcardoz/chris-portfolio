@@ -2,12 +2,12 @@ import './global.css'
 import type { Metadata } from 'next'
 import { Space_Grotesk } from 'next/font/google'
 import { JetBrains_Mono } from 'next/font/google'
-import { Navbar } from './components/nav'
+import { Navbar } from '@/components/nav'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
-import Footer from './components/footer'
+import Footer from '@/components/footer'
 import { baseUrl } from './sitemap'
-import { AmbientNoise } from './components/ambient-noise'
+import { AmbientNoise } from '@/components/ambient-noise'
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],

@@ -1,5 +1,5 @@
-import { BlogPosts } from 'app/components/posts'
-import { VisitorsGlobe } from 'app/components/visitors-globe'
+import { BlogPosts } from '@/components/posts'
+import { VisitorsGlobe } from '@/components/visitors-globe'
 
 export default function Page() {
   return (
