@@ -1,8 +1,8 @@
 'use client'
 
-import { OrbitControls, useTexture } from '@react-three/drei'
+import { useTexture } from '@react-three/drei'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { useRef, Suspense, useEffect, useMemo, useCallback } from 'react'
+import { useRef, useEffect, Suspense, useMemo, useCallback } from 'react'
 import { feature } from 'topojson-client'
 import * as THREE from 'three'
 import type { Geometry, GeometryCollection, MultiPolygon, Polygon } from 'geojson'
@@ -169,9 +169,6 @@ function Atmosphere() {
   )
 }
 
-// Shader version key — change this to force recompilation
-const SHADER_VERSION = 'v7'
-
 const VERT_SHADER = `
   varying vec2 vUv;
   varying vec3 vNormal;
@@ -216,88 +213,24 @@ const FRAG_SHADER = `
 function Earth() {
   const meshRef = useRef<THREE.Mesh>(null)
   const matRef = useRef<THREE.ShaderMaterial>(null)
-  const frameCount = useRef(0)
 
   const [dayMap, nightMap] = useTexture([
     '/textures/2k_earth_daymap.jpg',
     '/textures/2k_earth_nightmap.jpg',
   ])
 
-  // Compute sun direction ONCE in object space based on current time.
-  // As the globe group rotates, this fixed object-space sun stays put,
-  // so the lit hemisphere rotates with the mesh — camera sees both day & night.
-  const initialSunDir = useMemo(() => {
-    const dir = getSunDirection(new Date())
-    console.log('[Earth] Initial sun direction (object space, computed once):', dir.x.toFixed(3), dir.y.toFixed(3), dir.z.toFixed(3))
-    return dir
-  }, [])
+  const initialSunDir = useMemo(() => getSunDirection(new Date()), [])
 
-  console.log('[Earth] RENDER — shader version:', SHADER_VERSION)
-  console.log('[Earth] dayMap loaded:', !!dayMap, 'image:', dayMap?.image?.width, 'x', dayMap?.image?.height)
-  console.log('[Earth] nightMap loaded:', !!nightMap, 'image:', nightMap?.image?.width, 'x', nightMap?.image?.height)
-
-  const uniforms = useMemo(() => {
-    console.log('[Earth] Creating uniforms object (useMemo)')
-    return {
-      uDayTexture: { value: dayMap },
-      uNightTexture: { value: nightMap },
-      uSunDirection: { value: initialSunDir },
-    }
-  }, [dayMap, nightMap, initialSunDir])
-
-  useEffect(() => {
-    const mat = matRef.current
-    if (mat) {
-      console.log('[Earth] useEffect — mat exists')
-      console.log('[Earth] mat.uniforms keys:', Object.keys(mat.uniforms))
-      console.log('[Earth] mat.fragmentShader includes nightBase?', mat.fragmentShader.includes('nightBase'))
-      console.log('[Earth] uses object-space normals (no modelMatrix)?', !mat.vertexShader.includes('modelMatrix'))
-    } else {
-      console.log('[Earth] useEffect — matRef is NULL')
-    }
-  })
-
-  useFrame(() => {
-    const mat = matRef.current
-    if (!mat) {
-      if (frameCount.current < 5) console.log('[Earth] useFrame — mat is NULL, frame:', frameCount.current)
-      return
-    }
-
-    mat.uniforms.uDayTexture.value = dayMap
-    mat.uniforms.uNightTexture.value = nightMap
-    // Sun direction is FIXED in object space — do NOT update it per frame.
-    // The globe group's rotation carries the lit hemisphere around.
-
-    frameCount.current++
-    if (frameCount.current === 1 || frameCount.current === 60 || frameCount.current === 300) {
-      const sd = mat.uniforms.uSunDirection.value
-      console.log(`[Earth] Frame ${frameCount.current}:`)
-      console.log(`  sunDir (object space, fixed): (${sd.x.toFixed(3)}, ${sd.y.toFixed(3)}, ${sd.z.toFixed(3)})`)
-      console.log(`  uDayTexture set:`, mat.uniforms.uDayTexture.value === dayMap)
-      console.log(`  uNightTexture set:`, mat.uniforms.uNightTexture.value === nightMap)
-
-      // Object-space normals — these DON'T change as the group rotates
-      const dirs = [
-        { name: '+Z (obj front)', n: [0, 0, 1] },
-        { name: '-Z (obj back)', n: [0, 0, -1] },
-        { name: '+X (obj right)', n: [1, 0, 0] },
-        { name: '-X (obj left)', n: [-1, 0, 0] },
-      ]
-      for (const d of dirs) {
-        const dot = d.n[0] * sd.x + d.n[1] * sd.y + d.n[2] * sd.z
-        const dayMix = Math.min(1, Math.max(0, (dot - (-0.15)) / (0.25 - (-0.15))))
-        console.log(`  ${d.name}: dot=${dot.toFixed(3)} dayMix=${dayMix.toFixed(3)}`)
-      }
-      console.log('  ^ These are FIXED. As group rotates, different obj-space faces point at camera.')
-    }
-  })
+  const uniforms = useMemo(() => ({
+    uDayTexture: { value: dayMap },
+    uNightTexture: { value: nightMap },
+    uSunDirection: { value: initialSunDir },
+  }), [dayMap, nightMap, initialSunDir])
 
   return (
     <mesh ref={meshRef}>
       <sphereGeometry args={[1, 32, 32]} />
       <shaderMaterial
-        key={SHADER_VERSION}
         ref={matRef}
         uniforms={uniforms}
         vertexShader={VERT_SHADER}
@@ -671,14 +604,7 @@ export default function GlobeCanvas() {
         camera={{ position: [0, 0, 2.4], fov: 45 }}
         gl={{ antialias: true, powerPreference: 'default' }}
       >
-        <ambientLight intensity={0.3} />
         <Globe />
-        <OrbitControls
-          enableZoom={false}
-          enablePan={false}
-          enableRotate={false}
-          autoRotate={false}
-        />
       </Canvas>
     </Suspense>
   )

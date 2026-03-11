@@ -75,11 +75,11 @@ export default async function Blog({ params }) {
             description: post.metadata.summary,
             image: post.metadata.image
               ? `${baseUrl}${post.metadata.image}`
-              : `/og?title=${encodeURIComponent(post.metadata.title)}`,
+              : `${baseUrl}/og?title=${encodeURIComponent(post.metadata.title)}`,
             url: `${baseUrl}/blog/${slug}`,
             author: {
               '@type': 'Person',
-              name: 'My Portfolio',
+              name: 'Chris Cardoza',
             },
           }),
         }}
