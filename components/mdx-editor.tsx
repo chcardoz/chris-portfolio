@@ -39,11 +39,12 @@ export function BlogPostEditor({
 
     setSaving(true)
     try {
-      await fetch('/api/edit', {
+      const res = await fetch('/api/edit', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ slug, content }),
       })
+      if (!res.ok) throw new Error(`Save failed: ${res.status}`)
       setLastSaved(new Date())
       setHasChanges(false)
     } catch (e) {
@@ -70,16 +71,11 @@ export function BlogPostEditor({
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-3">
-          <span className="font-mono text-xs bg-neutral-200 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 px-2 py-1 rounded">
-            posts/{slug}.mdx
-          </span>
-          <span className="text-xs text-neutral-400">
-            {lastSaved
-              ? `Last saved ${lastSaved.toLocaleTimeString()}`
-              : 'Unsaved'}
-          </span>
-        </div>
+        <span className="text-xs text-neutral-400">
+          {lastSaved
+            ? `Last saved ${lastSaved.toLocaleTimeString()}`
+            : 'Unsaved'}
+        </span>
         <div className="flex items-center gap-2">
           <button
             onClick={() => setEditing(false)}

@@ -28,14 +28,25 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
 
-  const { slug, content } = await req.json()
-  if (!slug || typeof content !== 'string') {
+  let body: { slug?: unknown; content?: unknown }
+  try {
+    body = await req.json()
+  } catch {
+    return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
+  }
+
+  const { slug, content } = body
+  if (typeof slug !== 'string' || !slug || typeof content !== 'string') {
     return NextResponse.json({ error: 'Missing slug or content' }, { status: 400 })
   }
 
   const safeName = path.basename(slug)
   const filePath = path.join(process.cwd(), 'posts', `${safeName}.mdx`)
 
-  await fs.writeFile(filePath, content, 'utf-8')
-  return NextResponse.json({ ok: true })
+  try {
+    await fs.writeFile(filePath, content, 'utf-8')
+    return NextResponse.json({ ok: true })
+  } catch {
+    return NextResponse.json({ error: 'Failed to write file' }, { status: 500 })
+  }
 }
