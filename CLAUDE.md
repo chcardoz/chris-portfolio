@@ -47,6 +47,10 @@ public/textures/    → Earth day/night map textures for globe
 - Dynamic routes use `[slug]` pattern (e.g., `app/blog/[slug]/page.tsx`)
 - No environment variables are required to run locally
 
+## Browser Automation
+
+`agent-browser` is installed globally for visual feedback during frontend work. Use it to screenshot and inspect the running dev server. See `.claude/skills/agent-browser/SKILL.md` for full command reference.
+
 ## Common Tasks
 
 - Add a blog post: Create a new `.mdx` file in `posts/`

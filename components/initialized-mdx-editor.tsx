@@ -54,6 +54,9 @@ const themeCSS = `
     --baseText: #404040 !important;
     --baseTextContrast: #1a1a1a !important;
     border: none !important;
+    background-color: var(--basePageBg) !important;
+    border-radius: 0.5rem !important;
+    overflow: hidden !important;
   }
   .mdxeditor-themed-override.mdxeditor [role='toolbar'] {
     flex-wrap: wrap;
