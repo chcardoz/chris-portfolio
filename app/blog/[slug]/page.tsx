@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import { CustomMDX } from '@/components/mdx'
 import { formatDate, getBlogPosts } from '@/app/blog/utils'
 import { baseUrl } from '@/app/sitemap'
+import { BlogPostEditor } from '@/components/mdx-editor'
 
 export async function generateStaticParams() {
   let posts = getBlogPosts()
@@ -92,9 +93,17 @@ export default async function Blog({ params }) {
           {formatDate(post.metadata.publishedAt)}
         </p>
       </div>
-      <article className="prose">
-        <CustomMDX source={post.content} />
-      </article>
+      {process.env.NODE_ENV === 'development' ? (
+        <BlogPostEditor slug={slug} initialContent={post.rawContent}>
+          <article className="prose">
+            <CustomMDX source={post.content} />
+          </article>
+        </BlogPostEditor>
+      ) : (
+        <article className="prose">
+          <CustomMDX source={post.content} />
+        </article>
+      )}
     </section>
   )
 }
