@@ -170,3 +170,21 @@ table {
 .title {
   text-wrap: balance;
 }
+
+.edit-post-button {
+  background: #e5e5e5;
+  color: #404040;
+}
+
+@media (prefers-color-scheme: dark) {
+  .edit-post-button {
+    background: #262626;
+    color: #a3a3a3;
+  }
+}
+
+/* MDXEditor — overrides are in components/mdx-editor-overrides.css (loaded after editor CSS) */
+
+.mdx-editor-wrapper {
+  border-radius: 0.5rem;
+}

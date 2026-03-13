@@ -34,19 +34,21 @@ function getMDXFiles(dir: string) {
 
 function readMDXFile(filePath: string) {
   const rawContent = fs.readFileSync(filePath, 'utf-8')
-  return parseFrontmatter(rawContent)
+  const { metadata, content } = parseFrontmatter(rawContent)
+  return { metadata, content, rawContent }
 }
 
 function getMDXData(dir: string) {
   const mdxFiles = getMDXFiles(dir)
   return mdxFiles.map((file) => {
-    const { metadata, content } = readMDXFile(path.join(dir, file))
+    const { metadata, content, rawContent } = readMDXFile(path.join(dir, file))
     const slug = path.basename(file, path.extname(file))
 
     return {
       metadata,
       slug,
       content,
+      rawContent,
     }
   })
 }
