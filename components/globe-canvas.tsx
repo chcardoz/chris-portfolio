@@ -3,82 +3,7 @@
 import { useTexture } from '@react-three/drei'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { useRef, Suspense, useMemo } from 'react'
-import { feature } from 'topojson-client'
 import * as THREE from 'three'
-import type { Geometry, GeometryCollection, MultiPolygon, Polygon } from 'geojson'
-import land110m from 'world-atlas/land-110m.json'
-
-// ─── Types ───────────────────────────────────────────────────────────────────
-
-type Topology = {
-  type: 'Topology'
-  objects: Record<string, unknown>
-  arcs?: number[][][]
-}
-
-type LandGeometry = Polygon | MultiPolygon | GeometryCollection
-
-// ─── Land outline helpers ────────────────────────────────────────────────────
-
-function extractLandLines(geometry: LandGeometry | undefined | null) {
-  const lines: Array<Array<{ lat: number; lng: number }>> = []
-  if (!geometry) return lines
-
-  const addRing = (ring: number[][]) => {
-    const cleaned: Array<{ lat: number; lng: number }> = []
-    for (const coord of ring) {
-      const [lng, lat] = coord
-      cleaned.push({ lat, lng })
-    }
-    if (cleaned.length > 1) {
-      lines.push(cleaned)
-    }
-  }
-
-  const handleGeometry = (geom: Geometry | GeometryCollection) => {
-    if (!geom) return
-    if (geom.type === 'GeometryCollection') {
-      geom.geometries.forEach(handleGeometry)
-      return
-    }
-    if (geom.type === 'Polygon') {
-      geom.coordinates.forEach(addRing)
-    } else if (geom.type === 'MultiPolygon') {
-      geom.coordinates.forEach(poly => poly.forEach(addRing))
-    }
-  }
-
-  handleGeometry(geometry)
-  return lines
-}
-
-function loadOutlines() {
-  try {
-    const data = (land110m as any).objects ? land110m : (land110m as any).default ?? land110m
-    const objects = (data as any).objects
-    const landObject = objects?.land
-    if (!landObject) return []
-
-    const landFeature = feature(data as unknown as Topology, landObject) as
-      | { type: 'Feature'; geometry: LandGeometry }
-      | { type: 'FeatureCollection'; features: Array<{ geometry: LandGeometry }> }
-
-    if (landFeature.type === 'FeatureCollection') {
-      const collected: Array<Array<{ lat: number; lng: number }>> = []
-      landFeature.features.forEach(f => {
-        collected.push(...extractLandLines(f.geometry))
-      })
-      return collected
-    }
-
-    return extractLandLines(landFeature.geometry)
-  } catch (err) {
-    console.error('Failed to load land outlines', err)
-    return []
-  }
-}
-
-const OUTLINES = loadOutlines()
 
 function latLngToCartesian(lat: number, lng: number, radius = 1) {
   const phi = THREE.MathUtils.degToRad(90 - lat)
@@ -106,32 +31,7 @@ function getSunDirection(date: Date): THREE.Vector3 {
   ).normalize()
 }
 
-// ─── Outline geometry (1 draw call) ──────────────────────────────────────────
-
-function buildOutlineGeometry() {
-  const positions: number[] = []
-  for (const outline of OUTLINES) {
-    for (let i = 0; i < outline.length - 1; i++) {
-      const a = latLngToCartesian(outline[i].lat, outline[i].lng, 1.005)
-      const b = latLngToCartesian(outline[i + 1].lat, outline[i + 1].lng, 1.005)
-      positions.push(a[0], a[1], a[2], b[0], b[1], b[2])
-    }
-  }
-  const geo = new THREE.BufferGeometry()
-  geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3))
-  return geo
-}
-
 // ─── Scene components ────────────────────────────────────────────────────────
-
-function GlobeLines() {
-  const geo = useRef(buildOutlineGeometry())
-  return (
-    <lineSegments geometry={geo.current}>
-      <lineBasicMaterial color="#cbd5e1" transparent opacity={0.35} />
-    </lineSegments>
-  )
-}
 
 function Atmosphere() {
   return (
@@ -240,6 +140,85 @@ function Earth() {
   )
 }
 
+function Clouds() {
+  const meshRef = useRef<THREE.Mesh>(null)
+  const cloudMap = useTexture('/textures/2k_earth_clouds.png')
+
+  useFrame((_, delta) => {
+    if (meshRef.current) {
+      meshRef.current.rotation.y += delta * 0.01
+    }
+  })
+
+  return (
+    <mesh ref={meshRef}>
+      <sphereGeometry args={[1.015, 32, 32]} />
+      <meshBasicMaterial
+        map={cloudMap}
+        transparent
+        opacity={0.35}
+        depthWrite={false}
+      />
+    </mesh>
+  )
+}
+
+// SF coordinates
+const SF_LAT = 37.7749
+const SF_LNG = -122.4194
+
+function LocationPulse() {
+  const meshRef = useRef<THREE.Mesh>(null)
+  const matRef = useRef<THREE.ShaderMaterial>(null)
+  const [x, y, z] = latLngToCartesian(SF_LAT, SF_LNG, 1.008)
+  const normal = new THREE.Vector3(x, y, z).normalize()
+
+  useFrame(({ clock }) => {
+    if (matRef.current) {
+      matRef.current.uniforms.uTime.value = clock.getElapsedTime()
+    }
+  })
+
+  return (
+    <mesh
+      ref={meshRef}
+      position={[x, y, z]}
+      quaternion={new THREE.Quaternion().setFromUnitVectors(
+        new THREE.Vector3(0, 0, 1),
+        normal
+      )}
+    >
+      <circleGeometry args={[0.015, 32]} />
+      <shaderMaterial
+        ref={matRef}
+        transparent
+        depthWrite={false}
+        uniforms={{
+          uTime: { value: 0 },
+        }}
+        vertexShader={`
+          varying vec2 vUv;
+          void main() {
+            vUv = uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+          }
+        `}
+        fragmentShader={`
+          uniform float uTime;
+          varying vec2 vUv;
+          void main() {
+            float dist = length(vUv - 0.5) * 2.0;
+            float pulse = 0.5 + 0.5 * sin(uTime * 1.2);
+            vec3 green = vec3(0.6, 0.9, 0.65);
+            float alpha = smoothstep(1.0, 0.3, dist) * (0.5 + 0.5 * pulse);
+            gl_FragColor = vec4(green, alpha);
+          }
+        `}
+      />
+    </mesh>
+  )
+}
+
 function Globe() {
   const group = useRef<THREE.Group>(null)
   const tilt = useRef(THREE.MathUtils.degToRad(25))
@@ -262,8 +241,9 @@ function Globe() {
   return (
     <group ref={group} scale={0.75}>
       <Earth />
+      <Clouds />
       <Atmosphere />
-      <GlobeLines />
+      <LocationPulse />
     </group>
   )
 }

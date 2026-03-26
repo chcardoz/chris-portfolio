@@ -24,7 +24,86 @@ h6 {
 
 /* Apply monospaced font to body text */
 body {
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
+  font-size: 0.9375rem; /* 15px */
+  line-height: 1rem; /* 16px */
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────────────────── */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #a3a3a3 transparent;
+}
+
+::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
+}
+
+::-webkit-scrollbar-thumb {
+  min-height: 44px;
+  background-color: #a3a3a3;
+  border-radius: 16px;
+  background-clip: padding-box;
+  border: 5px solid transparent;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #737373;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-corner,
+::-webkit-scrollbar-button,
+::-webkit-resizer {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  * {
+    scrollbar-color: #525252 transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #525252;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #737373;
+  }
+}
+
+/* ─── Top blur/fog ───────────────────────────────────────────────────────── */
+
+.page-blur {
+  user-select: none;
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 128px;
+  z-index: 10;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  opacity: 0.95;
+  -webkit-mask-image: linear-gradient(to bottom, black 25%, transparent);
+  mask-image: linear-gradient(to bottom, black 25%, transparent);
+}
+
+.page-blur::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, white, transparent);
+}
+
+@media (prefers-color-scheme: dark) {
+  .page-blur::after {
+    background: linear-gradient(to bottom, black, transparent);
+  }
 }
 
 ::selection {
@@ -47,6 +126,24 @@ body {
 
 html {
   min-width: 360px;
+}
+
+@keyframes blur-fade-in {
+  from {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translateY(0px);
+  }
+}
+
+.stagger-in {
+  opacity: 0;
+  animation: blur-fade-in 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .prose .anchor {
@@ -100,7 +197,7 @@ html {
 }
 
 .prose p {
-  @apply my-4 text-neutral-800 dark:text-neutral-200;
+  @apply my-4 text-neutral-800 dark:text-neutral-200 leading-relaxed;
 }
 
 .prose h1 {

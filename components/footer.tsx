@@ -35,7 +35,7 @@ export default function Footer() {
               href={href}
             >
               <ArrowIcon />
-              <span className="ml-2 h-7">{label}</span>
+              <span className="ml-2">{label}</span>
             </a>
           </li>
         ))}

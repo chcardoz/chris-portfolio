@@ -1,21 +1,23 @@
 import Link from 'next/link'
 import { formatDate, getBlogPosts } from '@/app/blog/utils'
 
-export function BlogPosts() {
+export function BlogPosts({ limit }: { limit?: number } = {}) {
   let allBlogs = getBlogPosts()
+
+  const sorted = allBlogs.sort((a, b) => {
+    if (
+      new Date(a.metadata.publishedAt) > new Date(b.metadata.publishedAt)
+    ) {
+      return -1
+    }
+    return 1
+  })
+
+  const posts = limit ? sorted.slice(0, limit) : sorted
 
   return (
     <div>
-      {allBlogs
-        .sort((a, b) => {
-          if (
-            new Date(a.metadata.publishedAt) > new Date(b.metadata.publishedAt)
-          ) {
-            return -1
-          }
-          return 1
-        })
-        .map((post) => (
+      {posts.map((post) => (
           <Link
             key={post.slug}
             className="flex flex-col space-y-1 mb-4"
