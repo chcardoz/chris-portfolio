@@ -11,7 +11,7 @@ function escapeXml(str: string): string {
 }
 
 export async function GET() {
-  const allBlogs = getBlogPosts()
+  const allBlogs = getBlogPosts().filter((post) => !post.metadata.draft)
 
   const itemsXml = allBlogs
     .sort((a, b) =>

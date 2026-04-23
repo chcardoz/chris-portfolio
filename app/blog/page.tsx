@@ -2,7 +2,8 @@ import { BlogPosts } from "@/components/posts";
 
 export const metadata = {
   title: "Blog",
-  description: "Read my blog.",
+  description:
+    "Essays by Chris Cardoza on building, abstractions, art, physics, and how to make the future real.",
 };
 
 export default function Page() {

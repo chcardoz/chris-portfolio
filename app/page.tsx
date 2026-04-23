@@ -1,9 +1,31 @@
 import { BlogPosts } from '@/components/posts'
 import { VisitorsGlobe } from '@/components/visitors-globe'
+import { baseUrl } from '@/app/sitemap'
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Chris Cardoza',
+  url: baseUrl,
+  image: `${baseUrl}/profile-pic.png`,
+  jobTitle: 'Founder',
+  description:
+    'Founder interested in making the future real and building better abstractions for human beings.',
+  sameAs: [
+    'https://github.com/chcardoz',
+    'https://x.com/keepaliveclub',
+    'https://www.linkedin.com/in/chris-cardoza-750987193/',
+  ],
+}
 
 export default function Page() {
   return (
     <section>
+      <script
+        type="application/ld+json"
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+      />
       <div className="mb-8 space-y-6">
         <div className="space-y-3 [&>p]:leading-snug">
           <h1 className="stagger-in text-2xl font-semibold tracking-tighter" style={{ animationDelay: '0ms' }}>Chris Cardoza</h1>
