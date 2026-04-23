@@ -7,6 +7,7 @@ type Metadata = {
   publishedAt: string
   summary: string
   image?: string
+  draft?: boolean
 }
 
 function parseFrontmatter(fileContent: string) {
@@ -20,8 +21,10 @@ function parseFrontmatter(fileContent: string) {
 
   frontMatterLines.forEach((line) => {
     const [key, ...valueArr] = line.split(': ')
-    let value = valueArr.join(': ').trim()
+    let value: any = valueArr.join(': ').trim()
     value = value.replace(/^['"](.*)['"]$/, '$1')
+    if (value === 'true') value = true
+    if (value === 'false') value = false
     metadata[key.trim() as keyof Metadata] = value
   })
 

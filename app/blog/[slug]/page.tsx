@@ -4,12 +4,17 @@ import { formatDate, getBlogPosts } from '@/app/blog/utils'
 import { baseUrl } from '@/app/sitemap'
 import { BlogPostEditor } from '@/components/mdx-editor'
 
+const isDev = process.env.NODE_ENV === 'development'
+
 export async function generateStaticParams() {
   let posts = getBlogPosts()
 
-  return posts.map((post) => ({
-    slug: post.slug,
-  }))
+  // Don't generate static pages for drafts in production
+  return posts
+    .filter((post) => isDev || !post.metadata.draft)
+    .map((post) => ({
+      slug: post.slug,
+    }))
 }
 
 type Props = { params: Promise<{ slug: string }> }
@@ -63,6 +68,11 @@ export default async function Blog({ params }: Props) {
     notFound()
   }
 
+  // In production, drafts should 404
+  if (!isDev && post.metadata.draft) {
+    notFound()
+  }
+
   return (
     <section>
       <script
@@ -93,9 +103,12 @@ export default async function Blog({ params }: Props) {
       <div className="flex justify-between items-center mt-2 mb-8 text-sm">
         <p className="text-sm text-neutral-600 dark:text-neutral-400">
           {formatDate(post.metadata.publishedAt)}
+          {post.metadata.draft && (
+            <span className="ml-2 text-yellow-600 dark:text-yellow-400">· Draft</span>
+          )}
         </p>
       </div>
-      {process.env.NODE_ENV === 'development' ? (
+      {isDev ? (
         <BlogPostEditor slug={slug} initialContent={post.rawContent}>
           <article className="prose">
             <CustomMDX source={post.content} />

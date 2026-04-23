@@ -1,10 +1,17 @@
 import Link from 'next/link'
 import { formatDate, getBlogPosts } from '@/app/blog/utils'
 
+const isDev = process.env.NODE_ENV === 'development'
+
 export function BlogPosts({ limit }: { limit?: number } = {}) {
   let allBlogs = getBlogPosts()
 
-  const sorted = allBlogs.sort((a, b) => {
+  // In production, hide drafts entirely
+  const visibleBlogs = isDev
+    ? allBlogs
+    : allBlogs.filter((post) => !post.metadata.draft)
+
+  const sorted = visibleBlogs.sort((a, b) => {
     if (
       new Date(a.metadata.publishedAt) > new Date(b.metadata.publishedAt)
     ) {
@@ -27,9 +34,15 @@ export function BlogPosts({ limit }: { limit?: number } = {}) {
               <p className="text-neutral-600 dark:text-neutral-400 w-[100px] tabular-nums">
                 {formatDate(post.metadata.publishedAt, false)}
               </p>
-              <p className="text-neutral-900 dark:text-neutral-100 tracking-tight">
-                {post.metadata.title}
-              </p>
+              {post.metadata.draft ? (
+                <span className="text-yellow-600 dark:text-yellow-400 tracking-tight font-medium">
+                  {post.metadata.title} (Draft)
+                </span>
+              ) : (
+                <p className="text-neutral-900 dark:text-neutral-100 tracking-tight">
+                  {post.metadata.title}
+                </p>
+              )}
             </div>
           </Link>
         ))}
