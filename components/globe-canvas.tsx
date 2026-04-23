@@ -115,8 +115,8 @@ function Earth() {
   const matRef = useRef<THREE.ShaderMaterial>(null)
 
   const [dayMap, nightMap] = useTexture([
-    '/textures/2k_earth_daymap.jpg',
-    '/textures/2k_earth_nightmap.jpg',
+    '/textures/earth_daymap.webp',
+    '/textures/earth_nightmap.webp',
   ])
 
   const initialSunDir = useMemo(() => getSunDirection(new Date()), [])
@@ -142,7 +142,7 @@ function Earth() {
 
 function Clouds() {
   const meshRef = useRef<THREE.Mesh>(null)
-  const cloudMap = useTexture('/textures/2k_earth_clouds.png')
+  const cloudMap = useTexture('/textures/earth_clouds.webp')
 
   useFrame((_, delta) => {
     if (meshRef.current) {
