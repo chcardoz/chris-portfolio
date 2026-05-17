@@ -1,7 +1,6 @@
 import './global.css'
 import type { Metadata } from 'next'
 import { Space_Grotesk } from 'next/font/google'
-import { Inter } from 'next/font/google'
 import { Navbar } from '@/components/nav'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
@@ -12,12 +11,6 @@ import { AmbientNoise } from '@/components/ambient-noise'
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
   variable: '--font-display',
-  display: 'swap',
-})
-
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-body',
   display: 'swap',
 })
 
@@ -63,8 +56,7 @@ export default function RootLayout({
       lang="en"
       className={cx(
         'text-black bg-white dark:text-white dark:bg-black',
-        spaceGrotesk.variable,
-        inter.variable
+        spaceGrotesk.variable
       )}
     >
       <body className="antialiased max-w-xl mx-4 mt-8 lg:mx-auto">
