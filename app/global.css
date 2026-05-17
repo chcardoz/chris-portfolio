@@ -24,9 +24,29 @@ h6 {
 
 /* Apply monospaced font to body text */
 body {
-  font-family: var(--font-body);
-  font-size: 0.9375rem; /* 15px */
-  line-height: 1rem; /* 16px */
+  font-family: 'Arial Narrow', Arial, sans-serif;
+  font-size: 1.125rem; /* 18px */
+  line-height: 1.375rem; /* 22px */
+}
+
+p,
+li,
+blockquote,
+.prose p,
+.prose li,
+.prose blockquote {
+  text-shadow: 0 0 5px #94918d;
+}
+
+@media (prefers-color-scheme: dark) {
+  p,
+  li,
+  blockquote,
+  .prose p,
+  .prose li,
+  .prose blockquote {
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.85);
+  }
 }
 
 /* ─── Scrollbar ──────────────────────────────────────────────────────────── */
@@ -107,8 +127,8 @@ body {
 }
 
 ::selection {
-  background-color: #47a3f3;
-  color: #fefefe;
+  background-color: #fde047;
+  color: #000000;
 }
 
 @media (prefers-color-scheme: dark) {

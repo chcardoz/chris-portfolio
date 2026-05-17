@@ -27,7 +27,7 @@ export default function Page() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
       />
       <div className="mb-8 space-y-6">
-        <div className="space-y-3 [&>p]:leading-snug">
+        <div className="space-y-1 [&>p]:leading-snug">
           <h1 className="stagger-in text-2xl font-semibold tracking-tighter" style={{ animationDelay: '0ms' }}>Chris Cardoza</h1>
           <p className="stagger-in text-neutral-800 dark:text-neutral-200" style={{ animationDelay: '150ms' }}>
             I am interested in how to make the future real.
