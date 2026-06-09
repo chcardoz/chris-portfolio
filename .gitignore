@@ -30,6 +30,9 @@ bun-debug.log*
 # env files
 .env
 
+# conductor local overrides
+.conductor/settings.local.toml
+
 # vercel
 .vercel
 
