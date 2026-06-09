@@ -1,0 +1,7 @@
+"$schema" = "https://conductor.build/schemas/settings.repo.schema.json"
+
+[scripts]
+setup = "bun install && if [ -f \"$CONDUCTOR_ROOT_PATH/.env\" ]; then ln -sf \"$CONDUCTOR_ROOT_PATH/.env\" .env; else echo 'No .env found in repo root - copy .env.example to .env and fill in values'; fi"
+run = "bun run dev -- -p $CONDUCTOR_PORT"
+archive = "rm -rf node_modules .next"
+run_mode = "concurrent"

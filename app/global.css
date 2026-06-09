@@ -184,6 +184,10 @@ html {
   @apply underline transition-all decoration-neutral-400 dark:decoration-neutral-600 underline-offset-2 decoration-[0.1em];
 }
 
+.prose a.citation {
+  @apply ml-1 no-underline text-sm font-normal align-baseline text-green-400 hover:text-green-300;
+}
+
 .prose .anchor:after {
   @apply text-neutral-300 dark:text-neutral-700;
   content: '#';

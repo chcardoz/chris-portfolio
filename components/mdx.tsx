@@ -53,6 +53,22 @@ function Code({ children, ...props }) {
   return <code dangerouslySetInnerHTML={{ __html: codeHTML }} {...props} />
 }
 
+function numberCitations(source: string) {
+  const citations = new Map<string, number>()
+
+  return source.replace(/<Citation\b([^>]*)\/>/g, (match, attrs) => {
+    const hrefMatch = attrs.match(/\bhref=(['"])(.*?)\1/)
+    if (!hrefMatch) return match
+
+    const href = hrefMatch[2]
+    if (!citations.has(href)) {
+      citations.set(href, citations.size + 1)
+    }
+
+    return `<a className="citation" href="${href}" target="_blank" rel="noopener noreferrer">[${citations.get(href)}]</a>`
+  })
+}
+
 function slugify(str) {
   return str
     .toString()
@@ -100,9 +116,13 @@ let components = {
 }
 
 export function CustomMDX(props) {
+  const source =
+    typeof props.source === 'string' ? numberCitations(props.source) : props.source
+
   return (
     <MDXRemote
       {...props}
+      source={source}
       components={{ ...components, ...(props.components || {}) }}
     />
   )
