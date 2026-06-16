@@ -1,42 +1,64 @@
-# Portfolio Blog Starter
+# Florence
 
-This is a porfolio site template complete with a blog. Includes:
+Personal portfolio, blog, and second-brain workspace for chriscardoza.com.
 
-- MDX and Markdown support
-- Optimized for SEO (sitemap, robots, JSON-LD schema)
-- RSS Feed
-- Dynamic OG images
-- Syntax highlighting
-- Tailwind v4
-- Vercel Speed Insights / Web Analytics
-- Geist font
+The site is now a Bun monorepo. Markdown/MDX files in `content/` are the durable source of truth, `packages/brain-core` parses and validates them, `packages/brain-db` builds a disposable SQLite index, and `apps/site` renders the public Next.js site.
 
-## Demo
+## Structure
 
-https://portfolio-blog-starter.vercel.app
-
-## How to Use
-
-You can choose from one of the following two methods to use this repository:
-
-### One-Click Deploy
-
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=vercel-examples):
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/examples/tree/main/solutions/blog&project-name=blog&repository-name=blog)
-
-### Clone and Deploy
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [pnpm](https://pnpm.io/installation) to bootstrap the example:
-
-```bash
-pnpm create next-app --example https://github.com/vercel/examples/tree/main/solutions/blog blog
+```text
+apps/site/             Next.js portfolio and publishing surface
+content/blog/          Published and draft MDX posts
+content/transcripts/   Transcript/source documents
+packages/brain-core/   Content schema, parser, graph extraction, feed helpers
+packages/brain-db/     Generated SQLite index and FTS queries
+packages/brain-cli/    Human/agent command-line control plane
+packages/brain-mcp/    MCP stdio server for agent tools
+.brain/                Generated SQLite index, ignored by git
 ```
 
-Then, run Next.js in development mode:
+## Commands
 
 ```bash
-pnpm dev
+bun install
+bun run dev
+bun run build
+bun run test
+bun run typecheck
+bun run lint
+bun run format
 ```
 
-Deploy it to the cloud with [Vercel](https://vercel.com/templates) ([Documentation](https://nextjs.org/docs/app/building-your-application/deploying)).
+Brain commands:
+
+```bash
+bun run brain validate
+bun run brain reindex
+bun run brain search "fractal"
+bun run brain read blog:100-ideas-to-get-you-started
+bun run brain backlinks <id-or-slug>
+bun run brain orphans
+```
+
+MCP server:
+
+```bash
+bun run mcp
+```
+
+## Content Rules
+
+Blog posts live in `content/blog/*.mdx` and require:
+
+```yaml
+---
+title: Example
+publishedAt: "2026-01-01"
+summary: Short summary
+draft: false
+tags: []
+aliases: []
+---
+```
+
+Notes and transcripts should prefer plain Markdown. SQLite is generated state; if it is stale, run `bun run brain reindex`.
