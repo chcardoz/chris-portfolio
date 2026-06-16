@@ -1,20 +1,9 @@
-import { getBlogPosts } from "@/app/blog/utils";
+import { buildSitemapEntries } from "@florence/brain-core";
+import { getBlogPosts } from "@/lib/brain";
 
 export const baseUrl =
   process.env.NEXT_PUBLIC_BASE_URL || "https://chriscardoza.com";
 
 export default async function sitemap() {
-  let blogs = getBlogPosts()
-    .filter((post) => !post.metadata.draft)
-    .map((post) => ({
-      url: `${baseUrl}/blog/${post.slug}`,
-      lastModified: post.metadata.publishedAt,
-    }));
-
-  let routes = ["", "/blog"].map((route) => ({
-    url: `${baseUrl}${route}`,
-    lastModified: new Date().toISOString().split("T")[0],
-  }));
-
-  return [...routes, ...blogs];
+  return buildSitemapEntries(getBlogPosts(), baseUrl);
 }

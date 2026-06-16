@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs/promises";
 import path from "path";
+import { readRawBlogPost, writeRawBlogPost } from "@/lib/brain";
 
 export async function GET(req: NextRequest) {
   if (process.env.NODE_ENV !== "development") {
@@ -13,18 +13,9 @@ export async function GET(req: NextRequest) {
   }
 
   const safeName = path.basename(slug);
-  const filePath = path.resolve(
-    process.cwd(),
-    "..",
-    "..",
-    "content",
-    "blog",
-    `${safeName}.mdx`,
-  );
 
   try {
-    const content = await fs.readFile(filePath, "utf-8");
-    return NextResponse.json({ content });
+    return NextResponse.json({ content: readRawBlogPost(safeName) });
   } catch {
     return NextResponse.json({ error: "Post not found" }, { status: 404 });
   }
@@ -51,17 +42,9 @@ export async function PUT(req: NextRequest) {
   }
 
   const safeName = path.basename(slug);
-  const filePath = path.resolve(
-    process.cwd(),
-    "..",
-    "..",
-    "content",
-    "blog",
-    `${safeName}.mdx`,
-  );
 
   try {
-    await fs.writeFile(filePath, content, "utf-8");
+    writeRawBlogPost(safeName, content);
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json(

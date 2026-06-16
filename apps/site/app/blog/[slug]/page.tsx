@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { CustomMDX } from "@/components/mdx";
-import { formatDate, getBlogPosts } from "@/app/blog/utils";
+import { formatDate } from "@florence/brain-core";
+import { getBlogPosts } from "@/lib/brain";
 import { baseUrl } from "@/app/sitemap";
 import { BlogPostEditor } from "@/components/mdx-editor";
 

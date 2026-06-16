@@ -6,6 +6,7 @@
     "apps/site": {
       "name": "@florence/site",
       "dependencies": {
+        "@florence/brain-core": "workspace:*",
         "@mdxeditor/editor": "4.0.2",
         "@react-three/drei": "10.7.7",
         "@react-three/fiber": "^9.6.1",

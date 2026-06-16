@@ -1,23 +1,11 @@
 import Link from "next/link";
-import { formatDate, getBlogPosts } from "@/app/blog/utils";
+import { formatDate, getVisibleBlogPosts } from "@florence/brain-core";
+import { getBlogPosts } from "@/lib/brain";
 
 const isDev = process.env.NODE_ENV === "development";
 
 export function BlogPosts({ limit }: { limit?: number } = {}) {
-  let allBlogs = getBlogPosts();
-
-  // In production, hide drafts entirely
-  const visibleBlogs = isDev
-    ? allBlogs
-    : allBlogs.filter((post) => !post.metadata.draft);
-
-  const sorted = visibleBlogs.sort((a, b) => {
-    if (new Date(a.metadata.publishedAt) > new Date(b.metadata.publishedAt)) {
-      return -1;
-    }
-    return 1;
-  });
-
+  const sorted = getVisibleBlogPosts(getBlogPosts(), isDev);
   const posts = limit ? sorted.slice(0, limit) : sorted;
 
   return (
