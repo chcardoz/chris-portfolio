@@ -1,3 +1,11 @@
+---
+title: Fractal demo transcript notes
+summary: Notes for fetching and cleaning the Fractal demo transcript.
+status: private
+tags:
+  - transcript
+---
+
 # Fractal Demo Transcript
 
 Source video: https://www.youtube.com/watch?v=MopzFfYr97A

@@ -41,4 +41,4 @@ bun-debug.log*
 next-env.d.ts
 
 # generated brain index
-.brain/
+**/.brain/

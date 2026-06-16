@@ -8,8 +8,10 @@
     "dev": "bun --filter @florence/site dev",
     "build": "bun --filter @florence/site build",
     "start": "bun --filter @florence/site start",
+    "brain": "bun --filter @florence/brain-cli brain",
     "typecheck": "bun --filter '*' typecheck",
     "lint": "bun --filter '*' lint",
+    "test": "bun --filter '*' test",
     "format": "bunx prettier --check package.json tsconfig.base.json README.md CLAUDE.md && bun --filter '*' format"
   }
 }
