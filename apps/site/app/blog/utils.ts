@@ -57,7 +57,7 @@ function getMDXData(dir: string) {
 }
 
 export const getBlogPosts = cache(() => {
-  return getMDXData(path.resolve(process.cwd(), "..", "..", "posts"));
+  return getMDXData(path.resolve(process.cwd(), "..", "..", "content", "blog"));
 });
 
 export function formatDate(date: string, includeRelative = false) {

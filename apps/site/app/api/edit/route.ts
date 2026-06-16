@@ -17,7 +17,8 @@ export async function GET(req: NextRequest) {
     process.cwd(),
     "..",
     "..",
-    "posts",
+    "content",
+    "blog",
     `${safeName}.mdx`,
   );
 
@@ -54,7 +55,8 @@ export async function PUT(req: NextRequest) {
     process.cwd(),
     "..",
     "..",
-    "posts",
+    "content",
+    "blog",
     `${safeName}.mdx`,
   );
 
