@@ -9,7 +9,7 @@
 /coverage
 
 # next.js
-/.next/
+**/.next/
 /out/
 
 # production
@@ -39,3 +39,6 @@ bun-debug.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# generated brain index
+.brain/
