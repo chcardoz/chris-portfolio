@@ -9,6 +9,7 @@
     "build": "bun --filter @florence/site build",
     "start": "bun --filter @florence/site start",
     "brain": "bun --filter @florence/brain-cli brain",
+    "mcp": "bun --filter @florence/brain-mcp mcp",
     "typecheck": "bun --filter '*' typecheck",
     "lint": "bun --filter '*' lint",
     "test": "bun --filter '*' test",
