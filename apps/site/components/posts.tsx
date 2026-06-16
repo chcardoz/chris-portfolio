@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { formatDate, getVisibleBlogPosts } from "@florence/brain-core";
+import { formatDate, getVisibleBlogPosts } from "@cbrain/core";
 import { getBlogPosts } from "@/lib/brain";
 
 const isDev = process.env.NODE_ENV === "development";

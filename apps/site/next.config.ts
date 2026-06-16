@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: false,
-  transpilePackages: ["@florence/brain-core"],
+  transpilePackages: ["@cbrain/core"],
   outputFileTracingRoot: path.join(__dirname, "../.."),
 };
 

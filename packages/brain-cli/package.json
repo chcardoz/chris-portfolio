@@ -1,5 +1,5 @@
 {
-  "name": "@florence/brain-cli",
+  "name": "@cbrain/cli",
   "private": true,
   "type": "module",
   "scripts": {
@@ -10,8 +10,8 @@
     "format": "prettier --check src package.json tsconfig.json"
   },
   "dependencies": {
-    "@florence/brain-core": "workspace:*",
-    "@florence/brain-db": "workspace:*",
+    "@cbrain/core": "workspace:*",
+    "@cbrain/db": "workspace:*",
     "commander": "^14.0.2"
   },
   "devDependencies": {

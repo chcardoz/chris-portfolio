@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
-import { createBrainConfig } from "@florence/brain-core";
+import { createBrainConfig } from "@cbrain/core";
 
 export function createMcpContext(rootDir = findWorkspaceRoot(process.cwd())) {
   return {

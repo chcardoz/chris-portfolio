@@ -1,4 +1,4 @@
-import { buildSitemapEntries } from "@florence/brain-core";
+import { buildSitemapEntries } from "@cbrain/core";
 import { getBlogPosts } from "@/lib/brain";
 
 export const baseUrl =

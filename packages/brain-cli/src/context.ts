@@ -1,6 +1,6 @@
 import path from "node:path";
 import { existsSync, readFileSync } from "node:fs";
-import { createBrainConfig } from "@florence/brain-core";
+import { createBrainConfig } from "@cbrain/core";
 
 export function createCliContext(rootDir = findWorkspaceRoot(process.cwd())) {
   return {

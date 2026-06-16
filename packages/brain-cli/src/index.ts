@@ -3,7 +3,7 @@ import {
   buildBrainGraph,
   readBrainDocuments,
   readDocumentRaw,
-} from "@florence/brain-core";
+} from "@cbrain/core";
 import {
   getIndexedDocument,
   listBacklinks,
@@ -11,14 +11,14 @@ import {
   listUnresolvedLinks,
   reindexBrainDatabase,
   searchIndexedDocuments,
-} from "@florence/brain-db";
+} from "@cbrain/db";
 import { createCliContext } from "./context";
 
 const program = new Command();
 
 program
   .name("brain")
-  .description("Control plane for the Florence content brain")
+  .description("Control plane for the cbrain content brain")
   .option("--root <dir>", "workspace root");
 
 program

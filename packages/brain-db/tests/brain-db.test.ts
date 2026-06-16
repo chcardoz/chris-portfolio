@@ -2,7 +2,7 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { describe, expect, test } from "bun:test";
-import { createBrainConfig } from "@florence/brain-core";
+import { createBrainConfig } from "@cbrain/core";
 import {
   getIndexedDocument,
   listBacklinks,
@@ -52,7 +52,7 @@ Searchable body.
 function makeFixture(files: Record<string, string>): string {
   const rootDir = join(
     tmpdir(),
-    `florence-brain-db-${Date.now()}-${Math.random().toString(16).slice(2)}`,
+    `cbrain-db-${Date.now()}-${Math.random().toString(16).slice(2)}`,
   );
 
   for (const [filePath, content] of Object.entries(files)) {

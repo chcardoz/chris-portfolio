@@ -5,7 +5,7 @@ import {
   readBlogPosts,
   readDocumentRaw,
   writeDocumentRaw,
-} from "@florence/brain-core";
+} from "@cbrain/core";
 
 export const repoRoot = path.resolve(
   /* turbopackIgnore: true */ process.cwd(),

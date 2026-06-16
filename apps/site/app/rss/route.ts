@@ -1,5 +1,5 @@
 import { baseUrl } from "@/app/sitemap";
-import { buildBlogFeedItems } from "@florence/brain-core";
+import { buildBlogFeedItems } from "@cbrain/core";
 import { getBlogPosts } from "@/lib/brain";
 
 function escapeXml(str: string): string {

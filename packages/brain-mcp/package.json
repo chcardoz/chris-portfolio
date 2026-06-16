@@ -1,5 +1,5 @@
 {
-  "name": "@florence/brain-mcp",
+  "name": "@cbrain/mcp",
   "private": true,
   "type": "module",
   "scripts": {
@@ -10,8 +10,8 @@
     "format": "prettier --check src package.json tsconfig.json"
   },
   "dependencies": {
-    "@florence/brain-core": "workspace:*",
-    "@florence/brain-db": "workspace:*",
+    "@cbrain/core": "workspace:*",
+    "@cbrain/db": "workspace:*",
     "@modelcontextprotocol/sdk": "^1.29.0",
     "zod": "^4.2.1"
   },

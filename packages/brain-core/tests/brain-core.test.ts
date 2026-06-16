@@ -133,7 +133,7 @@ Content
 function makeFixture(files: Record<string, string>): string {
   const rootDir = join(
     tmpdir(),
-    `florence-brain-core-${Date.now()}-${Math.random().toString(16).slice(2)}`,
+    `cbrain-core-${Date.now()}-${Math.random().toString(16).slice(2)}`,
   );
 
   for (const [filePath, content] of Object.entries(files)) {

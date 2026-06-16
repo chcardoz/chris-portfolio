@@ -5,7 +5,7 @@ import {
   type BrainDocument,
   type BrainGraph,
   type BrainLinkEdge,
-} from "@florence/brain-core";
+} from "@cbrain/core";
 import type { Database } from "bun:sqlite";
 import { createBrainSchema, openBrainDatabase } from "./schema";
 

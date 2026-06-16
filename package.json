@@ -5,11 +5,11 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "bun --filter @florence/site dev",
-    "build": "bun --filter @florence/site build",
-    "start": "bun --filter @florence/site start",
-    "brain": "bun --filter @florence/brain-cli brain",
-    "mcp": "bun --filter @florence/brain-mcp mcp",
+    "dev": "bun --filter @cbrain/site dev",
+    "build": "bun --filter @cbrain/site build",
+    "start": "bun --filter @cbrain/site start",
+    "brain": "bun --filter @cbrain/cli brain",
+    "mcp": "bun --filter @cbrain/mcp mcp",
     "typecheck": "bun --filter '*' typecheck",
     "lint": "bun --filter '*' lint",
     "test": "bun --filter '*' test",

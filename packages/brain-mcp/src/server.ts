@@ -4,7 +4,7 @@ import {
   buildBrainGraph,
   readBrainDocuments,
   readDocumentRaw,
-} from "@florence/brain-core";
+} from "@cbrain/core";
 import {
   getIndexedDocument,
   listBacklinks,
@@ -12,12 +12,12 @@ import {
   listUnresolvedLinks,
   reindexBrainDatabase,
   searchIndexedDocuments,
-} from "@florence/brain-db";
+} from "@cbrain/db";
 import { createMcpContext } from "./context";
 
 export function createBrainMcpServer() {
   const server = new McpServer({
-    name: "florence-brain",
+    name: "cbrain",
     version: "0.1.0",
   });
 
