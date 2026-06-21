@@ -2,56 +2,68 @@
 
 ## Project Overview
 
-Cairo is a personal portfolio and blog site for chriscardoza.com, built with Next.js 16, React 19, and TypeScript. It is deployed on Vercel.
+Florence is a personal portfolio, blog, and second-brain workspace for chriscardoza.com. It is a Bun monorepo with a Next.js public site over a reusable content brain.
 
 ## Package Manager
 
-This project uses **bun** (not npm, yarn, or pnpm).
+Use **bun**.
 
 - Install dependencies: `bun install`
 - Dev server: `bun run dev`
 - Build: `bun run build`
-- Start production: `bun run start`
+- Test: `bun run test`
+- Typecheck: `bun run typecheck`
+- Lint: `bun run lint`
+- Format check: `bun run format`
 
-## Tech Stack
+## Architecture
 
-- **Framework**: Next.js 16 (App Router)
-- **Language**: TypeScript 5.3
-- **Styling**: Tailwind CSS v4 (alpha) with PostCSS
-- **Blog**: MDX via next-mdx-remote, syntax highlighting via sugar-high
-- **3D**: React Three Fiber + Three.js + Drei (interactive globe with day/night shader and flight arcs)
-- **Analytics**: Vercel Analytics + Speed Insights
-- **Fonts**: Space Grotesk (display) + JetBrains Mono (monospace) from Google Fonts
-
-## Project Structure
-
-```
-app/                → Next.js app directory
-├── page.tsx        → Homepage (globe + recent posts)
-├── layout.tsx      → Root layout (fonts, analytics)
-├── blog/           → Blog listing + [slug] dynamic routes
-├── og/route.tsx    → Dynamic OG image generation
-├── rss/route.ts    → RSS feed
-├── sitemap.ts      → XML sitemap
-├── robots.ts       → robots.txt
-└── not-found.tsx   → 404 page
-components/         → React components (globe, nav, footer, mdx, ambient noise)
-posts/              → MDX blog posts
-public/textures/    → Earth day/night map textures for globe
+```text
+apps/site/             Next.js 16 App Router site
+content/blog/          Canonical MDX blog posts
+content/transcripts/   Canonical transcript documents
+packages/brain-core/   Parser, frontmatter schema, graph extraction, date/feed helpers
+packages/brain-db/     Generated SQLite index, FTS search, backlinks/unresolved queries
+packages/brain-cli/    CLI commands for validate/reindex/search/read/backlinks
+packages/brain-mcp/    MCP stdio server wrapping the same brain APIs
+.brain/                Generated SQLite database, ignored by git
 ```
 
-## Key Conventions
+Markdown/MDX plus git is the source of truth. SQLite is disposable generated state and must be rebuildable with `bun run brain reindex`.
 
-- Path alias: `@/*` maps to project root
-- Blog posts are `.mdx` files in the `posts/` directory with YAML frontmatter (title, publishedAt, summary, image)
-- Dynamic routes use `[slug]` pattern (e.g., `app/blog/[slug]/page.tsx`)
-- No environment variables are required to run locally
+## Site Conventions
+
+- Path alias: `@/*` maps to `apps/site/*`.
+- Blog rendering stays in `apps/site`.
+- Content parsing, sorting, draft filtering, feed data, and sitemap data belong in `packages/brain-core`.
+- Do not reintroduce filesystem content reads inside route files or React components. Use `apps/site/lib/brain.ts`.
+- The development edit API writes through `brain-core`, not direct `posts/` paths.
+
+## Brain CLI
+
+```bash
+bun run brain validate
+bun run brain reindex
+bun run brain search "query"
+bun run brain read <id-or-slug>
+bun run brain backlinks <id-or-slug>
+bun run brain orphans
+```
+
+Use the CLI first for deterministic content work in this repo: validate before edits, reindex after content changes, search/read before opening raw files, and use backlinks/orphans for graph checks.
+
+## Brain MCP
+
+```bash
+bun packages/brain-mcp/src/index.ts
+```
+
+Claude Code uses the project `.mcp.json`; approve `cbrain` from `/mcp` if prompted. Codex uses `.codex/config.toml` when project config is trusted and loaded; check `/mcp` in the TUI when needed. Prefer MCP tools when the agent host exposes them, especially `search`, `read_document`, `read_raw`, `backlinks`, `unresolved_links`, `validate`, and `reindex`. If MCP is unavailable, fall back to the Brain CLI commands above. MCP clients should launch the direct package entrypoint, because package-manager script output can break stdio.
+
+## Content Conventions
+
+Blog posts live in `content/blog/*.mdx` and require frontmatter with `title`, `publishedAt`, and `summary`. `draft: true` hides posts from production routes. Notes and transcripts should prefer `.md` unless published UI components require MDX.
 
 ## Browser Automation
 
-`agent-browser` is installed globally for visual feedback during frontend work. Use it to screenshot and inspect the running dev server. See `.claude/skills/agent-browser/SKILL.md` for full command reference.
-
-## Common Tasks
-
-- Add a blog post: Create a new `.mdx` file in `posts/`
-- Run locally: `bun run dev`
+Browser testing is not part of normal automated checks here. Use browser automation only when explicitly requested for visual/frontend verification.

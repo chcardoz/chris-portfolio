@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "cbrain": {
+      "type": "stdio",
+      "command": "bash",
+      "args": [
+        "-lc",
+        "cd \"${CONDUCTOR_WORKSPACE_PATH:-${CLAUDE_PROJECT_DIR:-$PWD}}\" && bun packages/brain-mcp/src/index.ts"
+      ]
+    }
+  }
+}

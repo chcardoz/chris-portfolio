@@ -1,0 +1,13 @@
+[mcp_servers.cbrain]
+command = "bash"
+args = [
+  "-lc",
+  "cd \"${CONDUCTOR_WORKSPACE_PATH:-$PWD}\" && bun packages/brain-mcp/src/index.ts",
+]
+enabled = true
+startup_timeout_sec = 20
+tool_timeout_sec = 60
+default_tools_approval_mode = "auto"
+
+[mcp_servers.cbrain.tools.reindex]
+approval_mode = "prompt"
