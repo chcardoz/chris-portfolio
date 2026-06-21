@@ -18,6 +18,7 @@
     "format": "bunx prettier --check package.json turbo.json vercel.json tsconfig.base.json README.md CLAUDE.md && turbo format --filter='./apps/*' --filter='./packages/*'"
   },
   "devDependencies": {
+    "next": "^16.2.7",
     "turbo": "^2.9.18"
   }
 }
