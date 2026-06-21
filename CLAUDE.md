@@ -39,7 +39,7 @@ Markdown/MDX plus git is the source of truth. SQLite is disposable generated sta
 - Do not reintroduce filesystem content reads inside route files or React components. Use `apps/site/lib/brain.ts`.
 - The development edit API writes through `brain-core`, not direct `posts/` paths.
 
-## Brain Commands
+## Brain CLI
 
 ```bash
 bun run brain validate
@@ -50,11 +50,15 @@ bun run brain backlinks <id-or-slug>
 bun run brain orphans
 ```
 
-MCP server:
+Use the CLI first for deterministic content work in this repo: validate before edits, reindex after content changes, search/read before opening raw files, and use backlinks/orphans for graph checks.
+
+## Brain MCP
 
 ```bash
-bun run mcp
+bun packages/brain-mcp/src/index.ts
 ```
+
+Claude Code uses the project `.mcp.json`; approve `cbrain` from `/mcp` if prompted. Codex uses `.codex/config.toml` when project config is trusted and loaded; check `/mcp` in the TUI when needed. Prefer MCP tools when the agent host exposes them, especially `search`, `read_document`, `read_raw`, `backlinks`, `unresolved_links`, `validate`, and `reindex`. If MCP is unavailable, fall back to the Brain CLI commands above. MCP clients should launch the direct package entrypoint, because package-manager script output can break stdio.
 
 ## Content Conventions
 
