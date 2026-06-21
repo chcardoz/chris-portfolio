@@ -1,18 +1,23 @@
 {
+  "name": "florence",
   "private": true,
+  "packageManager": "bun@1.3.13",
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
   "scripts": {
-    "dev": "bun --filter @cbrain/site dev",
-    "build": "bun --filter @cbrain/site build",
-    "start": "bun --filter @cbrain/site start",
-    "brain": "bun --filter @cbrain/cli brain",
-    "mcp": "bun --filter @cbrain/mcp mcp",
-    "typecheck": "bun --filter '*' typecheck",
-    "lint": "bun --filter '*' lint",
-    "test": "bun --filter '*' test",
-    "format": "bunx prettier --check package.json tsconfig.base.json README.md CLAUDE.md && bun --filter '*' format"
+    "dev": "turbo dev --filter=@cbrain/site",
+    "build": "turbo build --filter=@cbrain/site",
+    "start": "turbo start --filter=@cbrain/site",
+    "brain": "turbo brain --filter=@cbrain/cli --",
+    "mcp": "turbo mcp --filter=@cbrain/mcp",
+    "typecheck": "turbo typecheck --filter='./apps/*' --filter='./packages/*'",
+    "lint": "turbo lint --filter='./apps/*' --filter='./packages/*'",
+    "test": "turbo test --filter='./apps/*' --filter='./packages/*'",
+    "format": "bunx prettier --check package.json turbo.json vercel.json tsconfig.base.json README.md CLAUDE.md && turbo format --filter='./apps/*' --filter='./packages/*'"
+  },
+  "devDependencies": {
+    "turbo": "^2.9.18"
   }
 }

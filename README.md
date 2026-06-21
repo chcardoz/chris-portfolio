@@ -2,7 +2,7 @@
 
 Personal portfolio, blog, and second-brain workspace for chriscardoza.com.
 
-The site is now a Bun monorepo. Markdown/MDX files in `content/` are the durable source of truth, `packages/brain-core` parses and validates them, `packages/brain-db` builds a disposable SQLite index, and `apps/site` renders the public Next.js site.
+The site is now a Bun workspace monorepo orchestrated by Turborepo. Markdown/MDX files in `content/` are the durable source of truth, `packages/brain-core` parses and validates them, `packages/brain-db` builds a disposable SQLite index, and `apps/site` renders the public Next.js site.
 
 ## Structure
 
