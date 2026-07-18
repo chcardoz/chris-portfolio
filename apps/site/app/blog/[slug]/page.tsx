@@ -3,7 +3,6 @@ import { CustomMDX } from "@/components/mdx";
 import { formatDate } from "@cbrain/core";
 import { getBlogPosts } from "@/lib/brain";
 import { baseUrl } from "@/app/sitemap";
-import { BlogPostEditor } from "@/components/mdx-editor";
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -75,7 +74,7 @@ export default async function Blog({ params }: Props) {
   }
 
   return (
-    <section>
+    <section className="stagger-scope">
       <script
         type="application/ld+json"
         suppressHydrationWarning
@@ -98,10 +97,13 @@ export default async function Blog({ params }: Props) {
           }),
         }}
       />
-      <h1 className="title font-semibold text-2xl tracking-tighter">
+      <h1 className="stagger-in title font-semibold text-3xl leading-tight">
         {post.metadata.title}
       </h1>
-      <div className="flex justify-between items-center mt-2 mb-8 text-sm">
+      <div
+        className="stagger-in flex justify-between items-center mt-3 mb-10 text-sm"
+        style={{ animationDelay: "150ms" }}
+      >
         <p className="text-sm text-neutral-600 dark:text-neutral-400">
           {formatDate(post.metadata.publishedAt)}
           {post.metadata.draft && (
@@ -111,17 +113,9 @@ export default async function Blog({ params }: Props) {
           )}
         </p>
       </div>
-      {isDev ? (
-        <BlogPostEditor slug={slug} initialContent={post.rawContent}>
-          <article className="prose">
-            <CustomMDX source={post.content} />
-          </article>
-        </BlogPostEditor>
-      ) : (
-        <article className="prose">
-          <CustomMDX source={post.content} />
-        </article>
-      )}
+      <article className="stagger-in prose" style={{ animationDelay: "300ms" }}>
+        <CustomMDX source={post.content} />
+      </article>
     </section>
   );
 }

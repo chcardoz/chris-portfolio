@@ -1,18 +1,10 @@
 import "./global.css";
 import type { Metadata } from "next";
-import { Space_Grotesk } from "next/font/google";
 import { Navbar } from "@/components/nav";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Footer from "@/components/footer";
 import { baseUrl } from "./sitemap";
-import { AmbientNoise } from "@/components/ambient-noise";
-
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-display",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
@@ -54,15 +46,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={cx(
-        "text-black bg-white dark:text-white dark:bg-black",
-        spaceGrotesk.variable,
+        "text-neutral-950 bg-[#f8f7f2] dark:text-[#ece8df] dark:bg-[#11110f]",
       )}
     >
-      <body className="antialiased max-w-xl mx-4 mt-8 lg:mx-auto">
+      <body className="antialiased min-w-[360px]">
         <div className="page-blur" aria-hidden="true" />
-        <AmbientNoise />
-        <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0 isolate">
+        <main className="flex-auto min-w-0 flex w-full max-w-[44rem] flex-col px-5 pt-10 md:px-10 lg:ml-20 xl:ml-28 2xl:ml-36">
           <Navbar />
           {children}
           <Footer />
