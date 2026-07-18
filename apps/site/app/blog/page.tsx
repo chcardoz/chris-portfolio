@@ -8,11 +8,13 @@ export const metadata = {
 
 export default function Page() {
   return (
-    <section>
-      <h1 className="font-semibold text-2xl mb-8 tracking-tighter">
+    <section className="stagger-scope">
+      <h1 className="stagger-in font-semibold text-2xl mb-8">
         Some of my writing
       </h1>
-      <BlogPosts />
+      <div className="stagger-in" style={{ animationDelay: "150ms" }}>
+        <BlogPosts />
+      </div>
     </section>
   );
 }

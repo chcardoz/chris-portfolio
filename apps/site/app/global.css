@@ -12,41 +12,16 @@
   --sh-entity: #e25a1c;
 }
 
-/* Apply display font to all headings */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-display);
-}
-
-/* Apply monospaced font to body text */
 body {
-  font-family: "Arial Narrow", Arial, sans-serif;
-  font-size: 1.125rem; /* 18px */
-  line-height: 1.375rem; /* 22px */
-}
-
-p,
-li,
-blockquote,
-.prose p,
-.prose li,
-.prose blockquote {
-  text-shadow: 0 0 5px #94918d;
-}
-
-@media (prefers-color-scheme: dark) {
-  p,
-  li,
-  blockquote,
-  .prose p,
-  .prose li,
-  .prose blockquote {
-    text-shadow: 0 0 12px rgba(255, 255, 255, 0.85);
-  }
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  font-size: 1rem;
+  line-height: 1.55;
 }
 
 /* ─── Scrollbar ──────────────────────────────────────────────────────────── */
@@ -117,12 +92,12 @@ blockquote,
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, white, transparent);
+  background: linear-gradient(to bottom, #f8f7f2, transparent);
 }
 
 @media (prefers-color-scheme: dark) {
   .page-blur::after {
-    background: linear-gradient(to bottom, black, transparent);
+    background: linear-gradient(to bottom, #11110f, transparent);
   }
 }
 
@@ -142,10 +117,6 @@ blockquote,
   html {
     color-scheme: dark;
   }
-}
-
-html {
-  min-width: 360px;
 }
 
 @keyframes blur-fade-in {
@@ -181,7 +152,7 @@ html {
 }
 
 .prose a {
-  @apply underline transition-all decoration-neutral-400 dark:decoration-neutral-600 underline-offset-2 decoration-[0.1em];
+  @apply underline transition-all decoration-neutral-400 dark:decoration-neutral-600 underline-offset-2 decoration-[0.075em];
 }
 
 .prose a.citation {
@@ -198,11 +169,11 @@ html {
 }
 
 .prose pre {
-  @apply bg-neutral-50 dark:bg-neutral-900 rounded-lg overflow-x-auto border border-neutral-200 dark:border-neutral-900 py-2 px-3 text-sm;
+  @apply bg-neutral-100 dark:bg-neutral-950 rounded-md overflow-x-auto border border-neutral-300 dark:border-neutral-800 py-3 px-4 text-sm;
 }
 
 .prose code {
-  @apply px-1 py-0.5 rounded-lg;
+  @apply px-1 py-0.5 rounded-md;
 }
 
 .prose pre code {
@@ -225,23 +196,19 @@ html {
 }
 
 .prose h1 {
-  @apply text-4xl font-medium tracking-tight mt-6 mb-2;
-  font-family: var(--font-display);
+  @apply text-3xl font-semibold mt-8 mb-3;
 }
 
 .prose h2 {
-  @apply text-xl font-medium tracking-tight mt-6 mb-2;
-  font-family: var(--font-display);
+  @apply text-xl font-semibold mt-8 mb-3;
 }
 
 .prose h3 {
-  @apply text-xl font-medium tracking-tight mt-6 mb-2;
-  font-family: var(--font-display);
+  @apply text-lg font-semibold mt-7 mb-3;
 }
 
 .prose h4 {
-  @apply text-lg font-medium tracking-tight mt-6 mb-2;
-  font-family: var(--font-display);
+  @apply text-base font-semibold mt-7 mb-3;
 }
 
 .prose strong {
@@ -249,11 +216,26 @@ html {
 }
 
 .prose ul {
-  @apply list-disc pl-6;
+  @apply list-disc pl-5 my-5;
 }
 
 .prose ol {
-  @apply list-decimal pl-6;
+  @apply list-decimal pl-5 my-5;
+}
+
+.prose li {
+  @apply text-neutral-800 dark:text-neutral-200;
+  line-height: 1.6;
+  padding-left: 0.25rem;
+  margin-top: 0.35rem;
+}
+
+.prose blockquote {
+  @apply my-6 border-l border-neutral-300 pl-5 text-neutral-700 dark:border-neutral-700 dark:text-neutral-300;
+}
+
+.prose blockquote p {
+  @apply text-neutral-700 dark:text-neutral-300;
 }
 
 .prose > :first-child {
@@ -290,18 +272,6 @@ table {
 
 .title {
   text-wrap: balance;
-}
-
-.edit-post-button {
-  background: #e5e5e5;
-  color: #404040;
-}
-
-@media (prefers-color-scheme: dark) {
-  .edit-post-button {
-    background: #262626;
-    color: #a3a3a3;
-  }
 }
 
 /* MDXEditor — overrides are in components/mdx-editor-overrides.css (loaded after editor CSS) */

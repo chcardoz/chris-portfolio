@@ -9,26 +9,46 @@ const navItems = {
   },
 };
 
+const externalItems = [
+  { href: "https://github.com/chcardoz", name: "github" },
+  { href: "https://x.com/keepaliveclub", name: "x" },
+  {
+    href: "https://www.linkedin.com/in/chris-cardoza-750987193/",
+    name: "linkedin",
+  },
+];
+
 export function Navbar() {
   return (
-    <aside className="-ml-[8px] mb-10 mt-4 tracking-tight">
+    <aside className="relative z-20 mb-12 tracking-tight text-sm">
       <div className="lg:sticky lg:top-20">
         <nav
-          className="flex flex-row items-start relative px-0 pb-0 fade md:overflow-auto scroll-pr-6 md:relative"
+          className="flex flex-row flex-wrap items-start gap-x-4 gap-y-2 relative px-0 pb-0 fade md:overflow-auto scroll-pr-6 md:relative"
           id="nav"
         >
-          <div className="flex flex-row space-x-0 pr-10 group">
+          <div className="flex flex-row flex-wrap gap-x-4 gap-y-2 group">
             {Object.entries(navItems).map(([path, { name }]) => {
               return (
                 <Link
                   key={path}
                   href={path}
-                  className="transition-all duration-300 group-has-[a:hover]:text-neutral-400 dark:group-has-[a:hover]:text-neutral-600 hover:!text-neutral-800 dark:hover:!text-neutral-200 active:scale-90 active:transition-transform active:duration-100 flex align-middle relative py-1 px-2 m-1"
+                  className="transition-colors duration-150 text-neutral-600 dark:text-neutral-400 hover:text-neutral-950 dark:hover:text-neutral-100"
                 >
                   {name}
                 </Link>
               );
             })}
+            {externalItems.map(({ href, name }) => (
+              <a
+                key={href}
+                href={href}
+                rel="noopener noreferrer"
+                target="_blank"
+                className="transition-colors duration-150 text-neutral-600 dark:text-neutral-400 hover:text-neutral-950 dark:hover:text-neutral-100"
+              >
+                {name}
+              </a>
+            ))}
           </div>
         </nav>
       </div>

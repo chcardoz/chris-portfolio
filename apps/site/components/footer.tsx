@@ -15,20 +15,12 @@ function ArrowIcon() {
   );
 }
 
-const footerLinks = [
-  { href: "/rss", label: "rss" },
-  { href: "https://github.com/chcardoz", label: "github" },
-  { href: "https://x.com/keepaliveclub", label: "twitter/x" },
-  {
-    href: "https://www.linkedin.com/in/chris-cardoza-750987193/",
-    label: "linkedin",
-  },
-];
+const footerLinks = [{ href: "/rss", label: "rss" }];
 
 export default function Footer() {
   return (
-    <footer className="mb-16">
-      <ul className="font-sm mt-8 flex flex-col space-x-0 space-y-2 text-neutral-600 md:flex-row md:space-x-4 md:space-y-0 dark:text-neutral-300">
+    <footer className="mb-16 mt-12 border-t border-neutral-300 pt-6 dark:border-neutral-800">
+      <ul className="font-sm flex flex-col space-x-0 space-y-2 text-sm text-neutral-600 md:flex-row md:space-x-4 md:space-y-0 dark:text-neutral-400">
         {footerLinks.map(({ href, label }) => (
           <li key={label}>
             <a
@@ -43,7 +35,7 @@ export default function Footer() {
           </li>
         ))}
       </ul>
-      <p className="mt-8 text-neutral-600 dark:text-neutral-300">
+      <p className="mt-8 text-sm text-neutral-600 dark:text-neutral-400">
         © {new Date().getFullYear()} Chris Cardoza
       </p>
     </footer>
