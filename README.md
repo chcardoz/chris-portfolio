@@ -35,6 +35,8 @@ bun run format:write
 
 Oxlint lints the site and brain packages; Oxfmt checks repository code and configuration. Content and bundled agent skills are excluded from formatting. CI and workspace setup install from the committed lockfile with `bun install --frozen-lockfile`.
 
+The root Next.js dev dependency is required for Vercel's framework detection from the repository root. Keep its version aligned with `apps/site/package.json`.
+
 Brain commands:
 
 ```bash
