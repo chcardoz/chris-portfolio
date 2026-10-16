@@ -32,7 +32,7 @@ export function buildSitemapEntries(
   baseUrl: string,
   generatedAt = new Date(),
 ): SitemapEntry[] {
-  const routes = ["", "/blog"].map((route) => ({
+  const routes = ["", "/blog", "/library"].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: generatedAt.toISOString().split("T")[0] ?? "",
   }));

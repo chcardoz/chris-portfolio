@@ -24,15 +24,8 @@
       "dependsOn": ["^typecheck"],
       "outputs": []
     },
-    "lint": {
-      "dependsOn": ["^lint"],
-      "outputs": []
-    },
     "test": {
       "dependsOn": ["^test"],
-      "outputs": []
-    },
-    "format": {
       "outputs": []
     }
   }

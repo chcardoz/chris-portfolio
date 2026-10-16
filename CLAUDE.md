@@ -14,7 +14,8 @@ Use **bun**.
 - Test: `bun run test`
 - Typecheck: `bun run typecheck`
 - Lint: `bun run lint`
-- Format check: `bun run format`
+- Lint with Oxlint: `bun run lint` (fix: `bun run lint:fix`)
+- Format check with Oxfmt: `bun run format` (write: `bun run format:write`)
 
 ## Architecture
 
@@ -37,7 +38,6 @@ Markdown/MDX plus git is the source of truth. SQLite is disposable generated sta
 - Blog rendering stays in `apps/site`.
 - Content parsing, sorting, draft filtering, feed data, and sitemap data belong in `packages/brain-core`.
 - Do not reintroduce filesystem content reads inside route files or React components. Use `apps/site/lib/brain.ts`.
-- The development edit API writes through `brain-core`, not direct `posts/` paths.
 
 ## Brain CLI
 

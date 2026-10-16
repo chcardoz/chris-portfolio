@@ -19,6 +19,8 @@ packages/brain-mcp/    MCP stdio server for agent tools
 
 ## Commands
 
+Use Bun 1.4.2 (pinned in `package.json`) and Node.js 22.12 or newer.
+
 ```bash
 bun install
 bun run dev
@@ -27,7 +29,13 @@ bun run test
 bun run typecheck
 bun run lint
 bun run format
+bun run lint:fix
+bun run format:write
 ```
+
+Oxlint lints the site and brain packages; Oxfmt checks repository code and configuration. Content and bundled agent skills are excluded from formatting. CI and workspace setup install from the committed lockfile with `bun install --frozen-lockfile`.
+
+The root Next.js dev dependency is required for Vercel's framework detection from the repository root. Keep its version aligned with `apps/site/package.json`.
 
 Brain commands:
 
@@ -35,7 +43,7 @@ Brain commands:
 bun run brain validate
 bun run brain reindex
 bun run brain search "fractal"
-bun run brain read blog:100-ideas-to-get-you-started
+bun run brain read <id-or-slug>
 bun run brain backlinks <id-or-slug>
 bun run brain orphans
 ```

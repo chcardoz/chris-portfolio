@@ -1,0 +1,20 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "printWidth": 80,
+  "ignorePatterns": [
+    "**/.next/**",
+    "**/node_modules/**",
+    "**/next-env.d.ts",
+    "**/coverage/**",
+    "**/out/**",
+    "**/build/**",
+    ".brain/**",
+    ".context/**",
+    ".agents/**",
+    ".claude/**",
+    ".codex/**",
+    "content/**",
+    "bun.lock",
+    "skills-lock.json"
+  ]
+}

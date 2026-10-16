@@ -1,4 +1,4 @@
-import { BlogPosts } from "@/components/posts";
+import Link from "next/link";
 import { baseUrl } from "@/app/sitemap";
 
 const personSchema = {
@@ -6,7 +6,6 @@ const personSchema = {
   "@type": "Person",
   name: "Chris Cardoza",
   url: baseUrl,
-  image: `${baseUrl}/profile-pic.png`,
   jobTitle: "Founder",
   description:
     "Founder interested in making the future real and building better abstractions for human beings.",
@@ -19,48 +18,44 @@ const personSchema = {
 
 export default function Page() {
   return (
-    <section className="stagger-scope">
+    <section className="home-page">
       <script
         type="application/ld+json"
-        suppressHydrationWarning
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
       />
-      <div className="mb-10 space-y-8">
-        <div className="space-y-3">
-          <h1
-            className="stagger-in text-2xl font-semibold"
-            style={{ animationDelay: "0ms" }}
-          >
-            Chris Cardoza
-          </h1>
-          <p
-            className="stagger-in text-neutral-700 dark:text-neutral-300 leading-relaxed max-w-[38rem]"
-            style={{ animationDelay: "150ms" }}
-          >
-            I am interested in how to make the future real.
-          </p>
-          <p
-            className="stagger-in text-neutral-700 dark:text-neutral-300 leading-relaxed max-w-[38rem]"
-            style={{ animationDelay: "300ms" }}
-          >
-            I am also interested in creating better abstractions for human
-            beings.
-          </p>
-          <p
-            className="stagger-in text-neutral-700 dark:text-neutral-300 leading-relaxed max-w-[38rem]"
-            style={{ animationDelay: "450ms" }}
-          >
-            My background spans art, physics, and performance.
-          </p>
-        </div>
-        <hr
-          className="stagger-in border-neutral-300 dark:border-neutral-800"
-          style={{ animationDelay: "600ms" }}
-        />
-        <div className="stagger-in" style={{ animationDelay: "750ms" }}>
-          <BlogPosts limit={3} />
-        </div>
+      <h1>Chris Cardoza</h1>
+      <div className="home-intro">
+        <p>I am interested in how to make the future real.</p>
+        <p>
+          I am also interested in creating better abstractions for human beings.
+          My background spans art, physics, and performance.
+        </p>
       </div>
+      <nav aria-label="Explore" className="home-links">
+        <Link href="/library">my library</Link>
+        <Link href="/blog">writings</Link>
+        <a
+          href="https://github.com/chcardoz"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          github
+        </a>
+        <a
+          href="https://x.com/keepaliveclub"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          twitter
+        </a>
+        <a
+          href="https://www.linkedin.com/in/chris-cardoza-750987193/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          linkedin
+        </a>
+      </nav>
     </section>
   );
 }

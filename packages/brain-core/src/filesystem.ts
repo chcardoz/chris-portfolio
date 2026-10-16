@@ -56,24 +56,6 @@ export function readDocumentRaw(
   throw new Error(`Document not found: ${collectionName}/${slug}`);
 }
 
-export function writeDocumentRaw(
-  config: BrainConfig,
-  collectionName: string,
-  slug: string,
-  content: string,
-): void {
-  const collection = config.collections.find(
-    (item) => item.name === collectionName,
-  );
-  if (!collection) {
-    throw new Error(`Unknown collection: ${collectionName}`);
-  }
-
-  const extension = collection.extensions?.[0] ?? ".md";
-  const filePath = path.join(collection.dir, `${slug}${extension}`);
-  fs.writeFileSync(filePath, content, "utf-8");
-}
-
 function readCollection(
   config: BrainConfig,
   collection: ContentCollectionConfig,
