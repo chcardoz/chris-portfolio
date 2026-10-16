@@ -1,27 +1,419 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --sh-class: #2d5e9d;
-  --sh-identifier: #354150;
+  --sh-class: #4c97f8;
+  --sh-identifier: #dedbd3;
   --sh-sign: #8996a3;
-  --sh-string: #007f7a;
-  --sh-keyword: #e02518;
+  --sh-string: #0fa295;
+  --sh-keyword: #f47067;
   --sh-comment: #a19595;
   --sh-jsxliterals: #6266d1;
   --sh-property: #e25a1c;
   --sh-entity: #e25a1c;
 }
 
+html {
+  color-scheme: dark;
+  background: #11110f;
+  color: #dedbd3;
+}
+
 body {
-  font-family:
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
-  font-size: 1rem;
-  line-height: 1.55;
+  margin: 0;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a,
+button {
+  transition: color 180ms ease;
+}
+
+a:hover,
+button:hover {
+  color: #f0b0a2;
+}
+
+:focus-visible {
+  outline: 1px solid #e4a394;
+  outline-offset: 6px;
+}
+
+.site-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  padding: 56px 48px 24px;
+}
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-bottom: 64px;
+  color: #918f86;
+  font-size: 13px;
+}
+
+.site-nav [aria-current="page"] {
+  color: #dedbd3;
+}
+
+.home-page {
+  max-width: 900px;
+  padding-top: 28px;
+}
+
+.home-page h1 {
+  margin-bottom: 28px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.home-intro p + p {
+  margin-top: 14px;
+}
+
+.home-links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 30px;
+}
+
+.home-links a::before,
+.writing-title::before {
+  content: "> ";
+  color: #918f86;
+}
+
+.home-links a {
+  padding-block: 2px;
+}
+
+.site-footer {
+  display: flex;
+  gap: 24px;
+  margin-top: auto;
+  padding-top: 100px;
+  color: #77766e;
+  font-size: 11px;
+}
+
+.section-heading {
+  margin-bottom: 34px;
+  color: #e4a394;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 21px;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.writing-page,
+.site-shell > .stagger-scope {
+  width: 100%;
+  max-width: 720px;
+}
+
+.writing-list {
+  list-style: none;
+  padding: 0;
+}
+
+.writing-link {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px 32px;
+  padding-block: 12px;
+}
+
+.writing-date,
+.muted {
+  color: #918f86;
+  font-size: 12px;
+}
+
+.library-page {
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr);
+  gap: 64px;
+  width: 100%;
+}
+
+.library-sidebar h1 {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.library-intro {
+  margin-top: 8px;
+  color: #918f86;
+  font-size: 11px;
+}
+
+.library-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 36px;
+}
+
+.library-filters button {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+  padding: 4px 0;
+  border: 0;
+  background: none;
+  color: #918f86;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  font-size: 13px;
+}
+
+.library-filters button[aria-pressed="true"] {
+  color: #e4a394;
+}
+
+.filter-count {
+  color: #77766e;
+  font-size: 11px;
+}
+
+.shelf-count {
+  margin-top: 48px;
+  color: #918f86;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.shelf-note {
+  margin-top: 20px;
+  color: #77766e;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 14px;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+.bookshelf {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 190px));
+  gap: 48px 56px;
+  align-items: start;
+}
+
+.book-tile {
+  min-width: 0;
+  transition:
+    filter 280ms ease,
+    opacity 280ms ease,
+    transform 280ms ease;
+}
+
+.book-card {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  text-align: center;
+  color: #e5ceae;
+}
+
+.book-cover {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  aspect-ratio: 2 / 3;
+  padding: 28px 20px 24px;
+  border: 1px solid #795d50;
+  background: #3b302a;
+  box-shadow:
+    4px 4px 0 #25211d,
+    0 14px 28px #00000030;
+  transition:
+    transform 280ms ease,
+    box-shadow 280ms ease;
+}
+
+.book-cover::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1px solid #ae907127;
+  pointer-events: none;
+}
+
+.book-cover-author {
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.book-cover-title {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 30px;
+  line-height: 1.15;
+  font-weight: 400;
+}
+
+.book-cover-status {
+  color: #b39a83;
+  font-size: 8px;
+  letter-spacing: 0.05em;
+}
+
+.book-card:hover .book-cover,
+.book-card:focus-visible .book-cover,
+.book-tile[data-selected] .book-cover {
+  transform: translateY(-5px) rotate(-1deg);
+  box-shadow:
+    5px 6px 0 #25211d,
+    0 22px 36px #00000050;
+}
+
+.book-caption {
+  margin-top: 22px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(5px);
+  transition:
+    opacity 220ms ease,
+    transform 220ms ease,
+    visibility 220ms ease;
+  text-align: center;
+}
+
+.book-caption h2 {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.book-caption p {
+  color: #918f86;
+  font-size: 10px;
+}
+
+.book-caption > span {
+  color: #e4a394;
+  font-size: 9px;
+}
+
+.book-tile:hover .book-caption,
+.book-tile:focus-within .book-caption,
+.book-tile[data-selected] .book-caption {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.empty-book-cover {
+  aspect-ratio: 2 / 3;
+  border: 1px solid #35352f;
+  background: #191916;
+}
+
+.empty-book:nth-child(3) .empty-book-cover {
+  background: #1d1b18;
+}
+
+.empty-book:nth-child(4) .empty-book-cover {
+  background: #181c1a;
+}
+
+@media (hover: hover) {
+  .bookshelf:has(
+      .book-card:hover,
+      .book-card:focus-visible,
+      .book-tile[data-selected]
+    )
+    .book-tile:not(:hover):not(:focus-within):not([data-selected]) {
+    filter: blur(4px);
+    opacity: 0.4;
+  }
+}
+
+.empty-shelf {
+  padding-top: 4px;
+  color: #918f86;
+  font-size: 13px;
+}
+
+@media (max-width: 700px) {
+  .site-shell {
+    padding: 32px 24px 20px;
+  }
+
+  .home-page {
+    padding-top: 20px;
+  }
+
+  .library-page {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 36px;
+  }
+
+  .library-filters {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-top: 24px;
+  }
+
+  .library-filters button {
+    width: auto;
+    gap: 10px;
+  }
+
+  .shelf-count {
+    margin-top: 20px;
+  }
+
+  .shelf-note {
+    display: none;
+  }
+
+  .bookshelf {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px;
+  }
+
+  .book-cover-title {
+    font-size: clamp(21px, 5vw, 30px);
+  }
+
+  .book-cover {
+    padding: 24px 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .stagger-in {
+    opacity: 1 !important;
+  }
 }
 
 /* ─── Scrollbar ──────────────────────────────────────────────────────────── */
@@ -67,37 +459,6 @@ body {
   }
   ::-webkit-scrollbar-thumb:hover {
     background-color: #737373;
-  }
-}
-
-/* ─── Top blur/fog ───────────────────────────────────────────────────────── */
-
-.page-blur {
-  user-select: none;
-  pointer-events: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 128px;
-  z-index: 10;
-  -webkit-backdrop-filter: blur(5px);
-  backdrop-filter: blur(5px);
-  opacity: 0.95;
-  -webkit-mask-image: linear-gradient(to bottom, black 25%, transparent);
-  mask-image: linear-gradient(to bottom, black 25%, transparent);
-}
-
-.page-blur::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, #f8f7f2, transparent);
-}
-
-@media (prefers-color-scheme: dark) {
-  .page-blur::after {
-    background: linear-gradient(to bottom, #11110f, transparent);
   }
 }
 
@@ -272,10 +633,4 @@ table {
 
 .title {
   text-wrap: balance;
-}
-
-/* MDXEditor — overrides are in components/mdx-editor-overrides.css (loaded after editor CSS) */
-
-.mdx-editor-wrapper {
-  border-radius: 0.5rem;
 }

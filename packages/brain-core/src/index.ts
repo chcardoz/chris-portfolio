@@ -7,7 +7,6 @@ export {
   readBlogPosts,
   readBrainDocuments,
   readDocumentRaw,
-  writeDocumentRaw,
 } from "./filesystem";
 export { getVisibleBlogPosts, sortBlogPosts } from "./blog";
 export { buildBlogFeedItems, buildSitemapEntries } from "./feeds";
